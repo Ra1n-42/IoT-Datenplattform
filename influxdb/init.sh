@@ -8,6 +8,6 @@ done
 
 echo "Creating database if not exists..."
 
-influx -execute "CREATE DATABASE mydatabase"
+influx -execute "CREATE DATABASE ShellyDB"
 
 echo "Database created (if not existing)."
