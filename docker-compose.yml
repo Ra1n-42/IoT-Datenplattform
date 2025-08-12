@@ -1,0 +1,45 @@
+services:
+  mosquitto:
+    container_name: mosquitto-server
+    image: eclipse-mosquitto:latest
+    restart: always
+    ports:
+      - "1883:1883"
+      # - "9001:9001" Port für Websockts verwende ich nicht, deshalb "deaktiviert"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+
+  nodered:
+    container_name: nodered-server
+    image: nodered/node-red:latest
+    restart: always
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./nodered/flows.json:/data/flows.json
+
+  influxdb:
+    container_name: influxdb-server
+    build: ./influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+
+  grafana:
+    container_name: grafana-server
+    image: grafana/grafana:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
+  influxdb_data:
+  grafana_data:
